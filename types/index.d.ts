@@ -987,15 +987,23 @@ export declare namespace Knex {
   }
 
   interface Select<TRecord extends {} = any, TResult = unknown[]>
-    extends AliasQueryBuilder<TRecord, TResult>,
-    ColumnNameQueryBuilder<TRecord, TResult> {
+    extends ColumnNameQueryBuilder<TRecord, TResult>,
+      AliasQueryBuilder<TRecord, TResult> {
     (): QueryBuilder<TRecord, TResult>;
 
-    <TResult2 = ArrayIfAlready<TResult, any>, TInnerRecord = any, TInnerResult = any>(
+    <
+      TResult2 = ArrayIfAlready<TResult, any>,
+      TInnerRecord = any,
+      TInnerResult = any
+    >(
       ...subQueryBuilders: readonly QueryBuilder<TInnerRecord, TInnerResult>[]
     ): QueryBuilder<TRecord, TResult2>;
 
-    <TResult2 = ArrayIfAlready<TResult, any>, TInnerRecord = any, TInnerResult = any>(
+    <
+      TResult2 = ArrayIfAlready<TResult, any>,
+      TInnerRecord = any,
+      TInnerResult = any
+    >(
       subQueryBuilders: readonly QueryBuilder<TInnerRecord, TInnerResult>[]
     ): QueryBuilder<TRecord, TResult2>;
   }
@@ -1475,6 +1483,31 @@ export declare namespace Knex {
       >[]
     >(
       columnNames: readonly ColNameUT[]
+    ): QueryBuilder<TRecord, TResult2>;
+
+    <
+      TTable extends TableNames,
+      TKey extends keyof ResolveTableType<Tables[TTable]>,
+      TResult2 = DeferredKeySelection.Augment<
+        UnwrapArrayMember<TResult>,
+        ResolveTableType<TRecord>,
+        TKey & string
+      >[]
+    >(
+      ...columnNames: readonly `${TTable}.${TKey}`[]
+    ): QueryBuilder<TRecord, TResult2>;
+
+    <
+      TTable extends TableNames,
+      TKey extends keyof ResolveTableType<Tables[TTable]>,
+      ColNameUT extends keyof ResolveTableType<TRecord> & TKey,
+      TResult2 = DeferredKeySelection.Augment<
+        UnwrapArrayMember<TResult>,
+        ResolveTableType<TRecord>,
+        TKey & string
+      >[]
+    >(
+      columnNames: readonly `${TTable}.${TKey}`[]
     ): QueryBuilder<TRecord, TResult2>;
 
     // For non-inferrable column selection, we will allow consumer to
