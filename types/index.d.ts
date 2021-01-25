@@ -1065,14 +1065,15 @@ export declare namespace Knex {
       TJoinTargetRecord extends {} = any,
       TRecord2 extends {} = TRecord & TJoinTargetRecord,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
+    >(
       raw: Raw
     ): QueryBuilder<TRecord2, TResult2>;
     <
       TTable extends TableNames,
-      TRecord2 = ResolveTableType<TRecord> & ResolveTableType<TableType<TTable>>,
+      TRecord2 = ResolveTableType<TRecord> &
+        ResolveTableType<TableType<TTable>>,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
+    >(
       tableName: TTable,
       clause: JoinCallback
     ): QueryBuilder<TRecord2, TResult2>;
@@ -1080,7 +1081,7 @@ export declare namespace Knex {
       TJoinTargetRecord extends {} = any,
       TRecord2 extends {} = TRecord & TJoinTargetRecord,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
+    >(
       tableName: TableDescriptor | AliasDict | QueryCallback,
       clause: JoinCallback
     ): QueryBuilder<TRecord2, TResult2>;
@@ -1088,7 +1089,7 @@ export declare namespace Knex {
       TJoinTargetRecord extends {} = any,
       TRecord2 extends {} = TRecord & TJoinTargetRecord,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
+    >(
       tableName: TableDescriptor | AliasDict | QueryCallback,
       columns: { [key: string]: string | number | boolean | Raw }
     ): QueryBuilder<TRecord2, TResult2>;
@@ -1096,16 +1097,42 @@ export declare namespace Knex {
       TJoinTargetRecord extends {} = any,
       TRecord2 extends {} = TRecord & TJoinTargetRecord,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
+    >(
       tableName: TableDescriptor | AliasDict | QueryCallback,
       raw: Raw
     ): QueryBuilder<TRecord2, TResult2>;
     <
-      TTable extends TableNames,
-      TRecord2 = ResolveTableType<TRecord> & ResolveTableType<TableType<TTable>>,
+      TTable1 extends TableNames,
+      TTable2 extends TableNames,
+      TKey1 extends keyof Tables[TTable1],
+      TKey2 extends keyof Tables[TTable2],
+      TRecord2 = ResolveTableType<TRecord> &
+        ResolveTableType<TableType<TTable2>>,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
-      tableName: TTable,
+    >(
+      tableName: TTable2,
+      column1: `${TTable1}.${TKey1 & keyof ResolveTableType<TRecord>}`,
+      column2: `${TTable2}.${TKey2}`
+    ): QueryBuilder<TRecord2, TResult2>;
+    <
+      TTable1 extends TableNames,
+      TTable2 extends TableNames,
+      TKey1 extends keyof Tables[TTable1],
+      TKey2 extends keyof Tables[TTable2],
+      TRecord2 = ResolveTableType<TRecord> &
+        ResolveTableType<TableType<TTable2>>,
+      TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
+    >(
+      tableName: TTable2,
+      column1: `${TTable2}.${TKey2}`,
+      column2: `${TTable1}.${TKey1 & keyof ResolveTableType<TRecord>}`
+    ): QueryBuilder<TRecord2, TResult2>;
+    <
+      TJoinTargetRecord extends {} = any,
+      TRecord2 extends {} = TRecord & TJoinTargetRecord,
+      TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
+    >(
+      tableName: TableDescriptor | AliasDict | QueryCallback,
       column1: string,
       column2: string
     ): QueryBuilder<TRecord2, TResult2>;
@@ -1113,35 +1140,42 @@ export declare namespace Knex {
       TJoinTargetRecord extends {} = any,
       TRecord2 extends {} = TRecord & TJoinTargetRecord,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
-      tableName: TableDescriptor | AliasDict | QueryCallback,
-      column1: string,
-      column2: string
-    ): QueryBuilder<TRecord2, TResult2>;
-    <
-      TJoinTargetRecord extends {} = any,
-      TRecord2 extends {} = TRecord & TJoinTargetRecord,
-      TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
+    >(
       tableName: TableDescriptor | AliasDict | QueryCallback,
       column1: string,
       raw: Raw
     ): QueryBuilder<TRecord2, TResult2>;
     <
-      TTable extends TableNames,
-      TRecord2 = ResolveTableType<TRecord> & ResolveTableType<TableType<TTable>>,
+      TTable1 extends TableNames,
+      TTable2 extends TableNames,
+      TKey1 extends keyof Tables[TTable1],
+      TKey2 extends keyof Tables[TTable2],
+      TRecord2 = ResolveTableType<TRecord> & ResolveTableType<TableType<TTable2>>,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
-      tableName: TTable,
-      column1: string,
+    >(
+      tableName: TTable2,
+      column1: `${TTable1}.${TKey1 & keyof ResolveTableType<TRecord>}`,
       operator: string,
-      column2: string
+      column2: `${TTable2}.${TKey2}`
+    ): QueryBuilder<TRecord2, TResult2>;
+    <
+      TTable1 extends TableNames,
+      TTable2 extends TableNames,
+      TKey1 extends keyof Tables[TTable1],
+      TKey2 extends keyof Tables[TTable2],
+      TRecord2 = ResolveTableType<TRecord> & ResolveTableType<TableType<TTable2>>,
+      TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
+    >(
+      tableName: TTable2,
+      column1: `${TTable2}.${TKey2}`,
+      operator: string,
+      column2: `${TTable1}.${TKey1 & keyof ResolveTableType<TRecord>}`,
     ): QueryBuilder<TRecord2, TResult2>;
     <
       TJoinTargetRecord extends {} = any,
       TRecord2 extends {} = TRecord & TJoinTargetRecord,
       TResult2 = DeferredKeySelection.ReplaceBase<TResult, TRecord2>
-      >(
+    >(
       tableName: TableDescriptor | AliasDict | QueryCallback,
       column1: string,
       operator: string,
